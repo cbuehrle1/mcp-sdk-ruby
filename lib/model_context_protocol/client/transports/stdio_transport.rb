@@ -1,4 +1,3 @@
-# lib/model_context_protocol/client/transports/stdio_transport.rb
 require 'json'
 require 'open3'
 

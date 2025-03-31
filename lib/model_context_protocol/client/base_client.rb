@@ -2,6 +2,7 @@
 require 'concurrent'
 require 'securerandom'
 require 'json'
+require 'pry'
 
 module ModelContextProtocol
   class Client
@@ -21,6 +22,8 @@ module ModelContextProtocol
       end
       @transport.connect
 
+      @connected = true
+
       hello_response = request({
         method: "hello",
         params: {
@@ -29,7 +32,6 @@ module ModelContextProtocol
         }
       })
 
-      @connected = true
       @server_info = hello_response[:server]
       @server_capabilities = hello_response[:capabilities]
 
@@ -116,18 +118,20 @@ module ModelContextProtocol
 
       @transport.send_message(request_with_id.to_json)
 
-      result = future.wait(timeout)
+      fulfilled = future.wait(timeout)
       @pending_requests.delete(id)
 
-      if result.nil?
+      unless fulfilled
         raise TimeoutError, "Request timed out after #{timeout} seconds"
       end
 
-      if result[:error]
-        raise ResponseError, "Server error: #{result[:error][:message]} (#{result[:error][:code]})"
+      fulfilled, value, reason = future.result
+
+      if value[:error]
+        raise ResponseError, "Server error: #{value[:error][:message]} (#{value[:error][:code]})"
       end
 
-      result[:result]
+      value[:result]
     end
 
     def handle_message(message)

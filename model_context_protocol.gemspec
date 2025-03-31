@@ -24,11 +24,12 @@ Gem::Specification.new do |spec|
   # Dependencies
   spec.add_dependency "json-schema", "~> 3.0"
   spec.add_dependency "dry-schema", "~> 1.13"
-  spec.add_dependency "dry-validation", "~> 1.10" 
+  spec.add_dependency "dry-validation", "~> 1.10"
   spec.add_dependency "concurrent-ruby", "~> 1.2"
-  
+
   # Development dependencies
   spec.add_development_dependency "rake", "~> 13.0"
+  spec.add_development_dependency "pry", "~> 0.6"
   spec.add_development_dependency "rspec", "~> 3.12"
   spec.add_development_dependency "rubocop", "~> 1.50"
 end

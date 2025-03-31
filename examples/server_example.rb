@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 require 'model_context_protocol'
-require 'pry'
 
 # Create an MCP server
 server = ModelContextProtocol::Server::McpServer.new({
@@ -9,7 +8,7 @@ server = ModelContextProtocol::Server::McpServer.new({
 })
 
 # Add a simple addition tool
-server.tool("add", { a: { type: "integer" }, b: { type: "integer" }}) { |params| { content: [{ type: "text", text: (params["a"] + params["b"]).to_s }]}  }
+server.tool("add", { a: { type: "integer" }, b: { type: "integer" }}) { |params| { content: [{ type: "text", text: (params[:a] + params[:b]).to_s }]}  }
 
 # Add a dynamic greeting resource
 server.resource("greeting", ModelContextProtocol::Server::ResourceTemplate.new("greeting://{name}", { list: nil })) do |uri, params|
