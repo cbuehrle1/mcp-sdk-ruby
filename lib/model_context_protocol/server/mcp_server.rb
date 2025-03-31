@@ -10,7 +10,7 @@ module ModelContextProtocol
 
       def initialize(server_info)
         @server_info = server_info
-        @server = Server.new(server_info, {
+        @server = BaseServer.new(server_info, {
           capabilities: {
             resources: {},
             tools: {},
@@ -30,7 +30,7 @@ module ModelContextProtocol
         @server.connect(transport)
       end
 
-      def tool(name, schema, handler)
+      def tool(name, schema, &handler)
         @tools[name] = {
           name: name,
           input_schema: schema,
@@ -38,7 +38,7 @@ module ModelContextProtocol
         }
       end
 
-      def resource(name, template, handler)
+      def resource(name, template, &handler)
         @resources[name] = {
           name: name,
           template: template,
@@ -46,7 +46,7 @@ module ModelContextProtocol
         }
       end
 
-      def prompt(name, schema, handler)
+      def prompt(name, schema, &handler)
         @prompts[name] = {
           name: name,
           input_schema: schema,

@@ -3,7 +3,7 @@ require 'concurrent'
 require 'json'
 
 module ModelContextProtocol
-  class Server
+  class BaseServer
     attr_reader :server_info, :capabilities, :request_handlers
 
     def initialize(server_info, options = {})
