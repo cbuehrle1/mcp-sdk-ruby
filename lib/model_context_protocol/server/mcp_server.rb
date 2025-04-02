@@ -54,9 +54,15 @@ module ModelContextProtocol
         }
       end
 
+      def override_request_handler(name, &handler)
+        @server.set_request_handler(name, &handler)
+      end
+
       private
 
       def register_standard_handlers
+        # Initialize server
+
         # List resources
         @server.set_request_handler("resources/list") do |params|
           resources = @resources.values.map do |resource|
