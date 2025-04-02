@@ -1,4 +1,3 @@
-# lib/model_context_protocol/server/index.rb
 require 'concurrent'
 require 'json'
 
@@ -17,10 +16,11 @@ module ModelContextProtocol
       @connected = false
 
       # Register default hello handler
-      set_request_handler("hello") do |params|
+      set_request_handler("initialize") do |params|
         {
-          server: @server_info,
-          capabilities: @capabilities
+          "serverInfo" => @server_info,
+          "capabilities" => @capabilities,
+          "protocolVersion" => "2024-11-05"
         }
       end
     end
@@ -80,6 +80,7 @@ module ModelContextProtocol
 
       response = {
         id: id,
+        jsonrpc: "2.0",
         result: result
       }
 
@@ -97,6 +98,7 @@ module ModelContextProtocol
 
       response = {
         id: id,
+        jsonrpc: "2.0",
         error: error
       }
 
